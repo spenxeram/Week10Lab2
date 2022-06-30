@@ -36,7 +36,9 @@ class Post {
         return $this;
     }
 
-    public function fetchPosts($offset = 0, $limit = 12) {
+    public function fetchPosts($offset, $limit) {
+        $this->offset = $offset;
+        $this->limit = $limit;
         $sql = "SELECT posts.*, users.username, COUNT(comments.id) AS num_comments
                 FROM posts 
                 JOIN users ON users.id = posts.user_id
