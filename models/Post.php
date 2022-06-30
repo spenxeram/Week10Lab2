@@ -86,7 +86,7 @@ class Post {
     }
 
     public function validatePost($post, $file) {
-        $this->post_title = htmlspecialchars($post['title']);
+        $this->post_title = strip_tags($post['title'], ['br','p', 'h1', 'h2']);
         $this->post_body  = htmlspecialchars($post['body']);
         if(empty($this->post_title) || empty($this->post_body)) {
             $this->errors['post_form_err'] = "New post fields cannot be empty!";
