@@ -85,18 +85,21 @@ class Post {
         return $this->posts;
     }
 
-    public function validatePost($post) {
+    public function validatePost($post, $file) {
         $this->post_title = htmlspecialchars($post['title']);
         $this->post_body  = htmlspecialchars($post['body']);
         if(empty($this->post_title) || empty($this->post_body)) {
             $this->errors['post_form_err'] = "New post fields cannot be empty!";
         }
+        if(FileManager::validateFile($file['image'], 5000000) === false) {
+            $this->errors['post_file_err'] = "Invalid file!";
+        }
         return $this;
     }
 
     public function createNewPost() {
-        $this->post_img = "images/itec_blog_628df26139e79.jpeg";
-        $this->post_user_id = 1;
+        $this->post_img = FileManager::uploadFile();
+        $this->post_user_id = $_SESSION['user_id'];
         $sql = "INSERT INTO posts (title, body, user_id, post_img) 
                 VALUES (?,?,?,?)";
         $stmt = $this->conn->prepare($sql);

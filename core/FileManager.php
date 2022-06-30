@@ -27,18 +27,19 @@ class FileManager {
         }
         // return a bool for error
         if(empty(self::$errors)) {
-            echo "File is good bro";
+            self::$temp = $file['tmp_name'];
             return true;
         } else {
-            echo "File is no bueno bro";
-            var_dump(self::$errors);
             return false;
         }
 
     }
 
     public static function uploadFile() {
-
+        $new_name = "images/" . uniqid("itec_") . "." .  self::$file_ext;
+        $dest = "public/" . $new_name;
+        move_uploaded_file(self::$temp, $dest);
+        return $new_name;
     }
 
 }
