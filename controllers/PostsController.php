@@ -40,17 +40,20 @@ class PostsController extends Controller {
     }
 
     public function create() {
-        $post = new Post($this->conn);
-        if($post->validatePost($this->req)->success()) {
-           if($post->createNewPost()->success()) {
-            Messenger::setMsg("New post created!", "success");
-            header("Location: " . ROOT . "posts/get/" . $post->post_id);
-           }
-        } else {
-            echo "this post has an error";
-            $errors = $post->errors;
-            include "views/create_post.php";
-        }
+        var_dump($this->req);
+        var_dump($this->files);
+        FileManager::validateFile($this->files['image'], 5000000);
+        // $post = new Post($this->conn);
+        // if($post->validatePost($this->req)->success()) {
+        //    if($post->createNewPost()->success()) {
+        //     Messenger::setMsg("New post created!", "success");
+        //     header("Location: " . ROOT . "posts/get/" . $post->post_id);
+        //    }
+        // } else {
+        //     echo "this post has an error";
+        //     $errors = $post->errors;
+        //     include "views/create_post.php";
+        // }
     }
 
     public function delete() {
