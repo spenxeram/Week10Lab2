@@ -16,6 +16,7 @@ class PostsController extends Controller {
         $offset = $this->params['offset'] ?? 0;
         $limit = $this->params['limit'] ?? 6;
         if($posts->fetchPosts($offset, $limit)->success()) {
+            $num_pages = $posts->getNumPages();
             $posts = $posts->getPosts();
             include "views/posts.php";
         } else {

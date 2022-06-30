@@ -11,12 +11,23 @@ class Post {
     public $post = [];
     public $posts = [];
     public $errors = [];
+    public $offset;
+    public $limit;
+    public $num_posts;
 
     // constructor (inject DB conn)
     public function __construct($conn) {
         $this->conn = $conn;
+        $this->countNumPosts();
     }
     // Post methods
+    // count the number of posts so pager can be calc'd
+    public function countNumPosts() {
+        $sql = "SELECT COUNT(id) AS num_posts FROM posts";
+        $stmt = $this->conn->query($sql);
+        $result = $stmt->fetch_assoc();
+        $this->num_posts = $result['num_posts'];
+    }
     // "setter" for the post prop
     public function fetchPost($id) {
         $this->post_id = $id;
@@ -36,9 +47,18 @@ class Post {
         return $this;
     }
 
+    public function calcPager() {
+        $this->num_pages = ceil($this->num_posts / $this->limit);
+    }
+
+    public function getNumPages() {
+        return $this->num_pages;
+    }
+
     public function fetchPosts($offset, $limit) {
         $this->offset = $offset;
         $this->limit = $limit;
+        $this->calcPager();
         $sql = "SELECT posts.*, users.username, COUNT(comments.id) AS num_comments
                 FROM posts 
                 JOIN users ON users.id = posts.user_id
