@@ -10,7 +10,10 @@
             <?php else: ?>
             <h1 class="display-4">Hello <?= $_SESSION['user_name'];?></h1>
             <p class="lead">Ready to post something new?</p>
+            
             <a href="<?= ROOT?>posts/create" class="btn btn-outline-primary btn-lg"><i class="fa fa-plus" aria-hidden="true"></i> Create a new post</a>
+
+            <a href="<?= ROOT?>api/posts" class="btn btn-primary btn-lg api"><i class="fa fa-map-pin" aria-hidden="true"></i> Hit API</a>
          
             <?php endif; ?>
         </div>

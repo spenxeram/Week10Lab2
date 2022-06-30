@@ -51,6 +51,11 @@ Router::post("posts/update", function() {
     $postsController->update();
 });
 
+Router::get("api/posts", function() {
+    $postsController = new PostsController;
+    $postsController->getPosts(true);
+});
+
 Router::get("posts/api", function() {
     echo "welcome to post api";
 });
